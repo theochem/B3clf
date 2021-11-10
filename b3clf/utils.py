@@ -521,7 +521,7 @@ def scale_descriptors(df):
     """
 
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "./b3db_scaler.joblib")
+    filename = os.path.join(dirname, "./files/b3db_scaler.joblib")
     b3db_scaler = load(filename)
     df.iloc[:, :] = b3db_scaler.transform(df)
 
@@ -546,7 +546,7 @@ def get_clf(clf_str, sampling_str):
     dirname = os.path.dirname(__file__)
     # Move data to new storage place for packaging
     clf_path = os.path.join(
-        dirname, "../../results/untreated_dataset/311021/clf_joblib/b3clf_{}_{}.joblib".format(clf_str, sampling_str))
+        dirname, "./files/b3clf_{}_{}.joblib".format(clf_str, sampling_str))
 
     clf = load(clf_path)
 
@@ -559,14 +559,14 @@ def predict_BBB(clf, features_df, info_df):
     if features_df.index.tolist() != info_df.index.tolist():     
         raise ValueError("Features_df and Info_df do not have the same index. Internal processing error")
     for index, row in features_df.iterrows():
-        try:
-            info_df.loc[index, "B3clf_predicted_probability"] = clf.predict_proba(row.to_numpy().reshape(1, -1))[:, 1]
-            info_df.loc[index, "B3clf_predicted_label"] = clf.predict(row.to_numpy().reshape(1, -1))
-        except:
-            info_df.loc[index, "B3clf_predicted_probability"] = "Invalid descriptors"
-            info_df.loc[index, "B3clf_predicted_label"] = "Invalid descriptors"
+        # try:
+        info_df.loc[index, "B3clf_predicted_probability"] = clf.predict_proba(row.to_numpy().reshape(1, -1))[:, 1]
+        info_df.loc[index, "B3clf_predicted_label"] = clf.predict(row.to_numpy().reshape(1, -1))
+        # except:
+        #     info_df.loc[index, "B3clf_predicted_probability"] = "Invalid descriptors"
+        #     info_df.loc[index, "B3clf_predicted_label"] = "Invalid descriptors"
     
-    info_df["B3clf_predicted_label"] = info_df["B3clf_predicted_label"].astype("int64")
+    #info_df["B3clf_predicted_label"] = info_df["B3clf_predicted_label"].astype("int64")
     info_df.reset_index(inplace=True)
 
     return info_df

@@ -35,7 +35,7 @@ if __name__ == "__main__":
     clf_str = args.clf
     sampling_str = args.sampling
 
-    descriptors_path = "/Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/repo_imbalanced_learning/command-line_tool/input_test.xlsx"
+    descriptors_path = "/Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/B3clf_command-line/b3clf/files/input_test.xlsx"
 
     # ===================
     # Pipeline
