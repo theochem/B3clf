@@ -46,3 +46,5 @@ def compute_descriptors(sdf_file,
         df_desc.to_excel(excel_out, engine="openpyxl")
 
     return df_desc
+
+    # Index will be the molecule's name

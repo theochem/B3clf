@@ -2,13 +2,23 @@
 Main B3clf Script.
 
 Usage: b3clf molecules.sdf -clf xgb -sampling borderline_SMOTE
+----------
+ToDo: Store and delete temporal files (sdf & PaDel features)    
+ToDo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor input
 """
 
 import argparse
 from utils import get_descriptors, select_descriptors, scale_descriptors, get_clf, predict_BBB, display_df
+from geometry_opt import geometry_optimize
+
+# Temporary modules
+from rdkit.Chem import PandasTools
+import pandas as pd
 
 __author__ = "Juansa Collins & Fanwang Meng"
 __version__ = "0.1.0"
+
+
 
 if __name__ == "__main__":
     # This might be needed later, for this point just build a simple interface
@@ -40,6 +50,25 @@ if __name__ == "__main__":
     # ===================
     # Pipeline
     # ===================
+
+    # Geometry Optimization
+    # Input: 
+    #   - SDF file with molecular geometries
+    #   - Text file with SMILES strings or Names
+
+    csv_path = "/Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/B3clf_command-line/b3clf/files/test_SMILES.csv"
+    test_sdf = "SMI_to_SDF.sdf"
+    
+    df_mol = pd.read_csv(csv_path, sep="\s+", header=None)
+    print(df_mol)
+    
+    geometry_optimize(input_fname=csv_path, output_sdf=test_sdf, sep="\s+")
+
+    test_df = PandasTools.LoadSDF(test_sdf).drop("ROMol", axis=1)
+
+    print(test_df)
+
+    raise RuntimeError
 
     # ===================
     # Get descriptors
