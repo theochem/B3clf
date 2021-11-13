@@ -1,6 +1,8 @@
-#!/usr/bin/env python3
-# B3clf is an input and output module for quantum chemistry.
-# Copyright (C) 2021 The B3clf Development Team
+# -*- coding: utf-8 -*-
+# The B3clf library provides a set of functions for transforming
+# a matrix to make it as similar as possible to a target matrix.
+#
+# Copyright (C) 2021 The Ayers Lab
 #
 # This file is part of B3clf.
 #
@@ -16,6 +18,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>
+#
 # --
 """Installation script for B3clf.
 
@@ -30,7 +33,7 @@ from setuptools import setup
 
 def get_version_info():
     """Read __version__ and DEV_CLASSIFIER from version.py, using exec, not import."""
-    fn_version = os.path.join("B3clf", "_version.py")
+    fn_version = os.path.join("b3clf", "version.py")
     if os.path.isfile(fn_version):
         myglobals = {}
         with open(fn_version, "r") as f:
@@ -48,15 +51,15 @@ def get_readme():
 VERSION, DEV_CLASSIFIER = get_version_info()
 
 setup(
-    name="B3clf",
+    name="b3clf",
     version=VERSION,
     description="Models for blood-brain barrier classifications with resampling strategies.",
     long_description=get_readme(),
     author="Ayers Lab",
     author_email="ayersp@mcmaster.ca",
     url="https://github.com/theochem/B3clf",
-    package_dir={"B3clf": "B3clf"},
-    packages=["B3clf"],
+    package_dir={"B3clf": "b3clf"},
+    packages=["b3clf"],
     include_package_data=True,
     # todo: add support of this
     # entry_points={
