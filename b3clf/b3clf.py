@@ -119,7 +119,7 @@ def b3clf(mol_in,
     if verbose != 0:
         print(result_df)
 
-    result_df.to_excel(output, index=None)
+    result_df.to_excel(output, index=None, engine="openpyxl")
 
     if keep_features != "yes":
         os.remove(features_out)
