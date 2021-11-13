@@ -37,7 +37,6 @@ __all__ = [
     "scale_descriptors",
     "get_clf",
     "predict_permeability",
-    "display_df",
 ]
 
 
@@ -549,7 +548,7 @@ def select_descriptors(df):
 
 
 def scale_descriptors(df):
-    """Scale input features using B3DB Standard Scaler
+    """Scale input features using B3DB Standard Scaler.
 
     The b3db_scaler was fitted using the full B3DB dataset.
     """
