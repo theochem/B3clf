@@ -151,7 +151,6 @@ def minimize_with_rdkit(input_molfname,
             raise NotImplementedError("This method is not implemented yet.")
 
     writer.close()
-    print("Geometry optimization with RDKit is done.")
 
 # todo: now the implementation is not supporting adding molecule name (such as SMILES strings)
 # def minimize_with_openbabel(input_molfname,

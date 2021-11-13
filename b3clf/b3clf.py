@@ -8,72 +8,83 @@ ToDo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor in
 """
 
 import argparse
+
+from pandas.io import excel
 from utils import get_descriptors, select_descriptors, scale_descriptors, get_clf, predict_BBB, display_df
 from geometry_opt import geometry_optimize
+from descriptor_padel import compute_descriptors
 
 # Temporary modules
-from rdkit.Chem import PandasTools
-import pandas as pd
+# from rdkit.Chem import PandasTools
+# import pandas as pd
 
-__author__ = "Juansa Collins & Fanwang Meng"
+__author__ = "Ayers-Lab"
 __version__ = "0.1.0"
 
 
 
 if __name__ == "__main__":
+    """B3clf command-line interface.
+    """
     # This might be needed later, for this point just build a simple interface
-    # """Parse command-line input for B3clf executable."""
     # description = """B3clf Command-Line Interface"""
     # parser = argparse.ArgumentParser(prog="b3clf", description=description)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-descriptors",  # Test with /Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/repo_imbalanced_learning/command-line_tool/input_test.xlsx
+    parser.add_argument("-mol",
                         type=str,
                         default=None,
                         help="Input file with descriptors.")
+    parser.add_argument("-output",
+                        type=str,
+                        default="B3clf_output.xlsx",
+                        help="Name of XLSX output file.")
     parser.add_argument("-clf",
                         type=str,
                         default="xgb",
                         help="Machine Learning classifier type.")
     parser.add_argument("-sampling",
                         type=str,
-                        default="common",  # Change it for best sampling of XGBoost
+                        default="classic_ADASYN",  # Change it for best sampling of XGBoost
                         help="Machine Learning classifier type.")
+    parser.add_argument("-sep",
+                        type=str,
+                        default="\s+|\t+",
+                        help="Separator for input file.")
+    
     args = parser.parse_args()
 
-    descriptors_path = args.descriptors
+    # Input variables
+    descriptors_path = args.mol
     clf_str = args.clf
     sampling_str = args.sampling
+    xlsx_output = args.output
 
-    descriptors_path = "/Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/B3clf_command-line/b3clf/files/input_test.xlsx"
+    features_out = "internal_padel_descriptors.xlsx"
+    internal_sdf = "internal.sdf"
 
     # ===================
     # Pipeline
     # ===================
 
-    # Geometry Optimization
+    # ===================
+    # Geometry optimization
+    # ===================
     # Input: 
-    #   - SDF file with molecular geometries
-    #   - Text file with SMILES strings or Names
+    # * Either an SDF file with molecular geometries or a text file with SMILES strings
 
-    csv_path = "/Users/JuansaCollins/Documents/Academico/MITACS/Ayers-Group/B3DB/B3clf_command-line/b3clf/files/test_SMILES.csv"
-    test_sdf = "SMI_to_SDF.sdf"
-    
-    df_mol = pd.read_csv(csv_path, sep="\s+", header=None)
-    print(df_mol)
-    
-    geometry_optimize(input_fname=csv_path, output_sdf=test_sdf, sep="\s+")
+    geometry_optimize(input_fname=descriptors_path, output_sdf=internal_sdf, sep=args.sep)
 
-    test_df = PandasTools.LoadSDF(test_sdf).drop("ROMol", axis=1)
-
-    print(test_df)
-
-    raise RuntimeError
+    # ===================
+    # Geometry optimization
+    # ===================
+    # Internal file name passed should be relative to this directory I think
+    internal_df = compute_descriptors(sdf_file=internal_sdf, excel_out=features_out)
 
     # ===================
     # Get descriptors
     # ===================
-    X_features, info_df = get_descriptors(descriptors_path)
+    X_features, info_df = get_descriptors(features_out)
 
     # ===================
     # Select descriptors
@@ -100,6 +111,8 @@ if __name__ == "__main__":
     # ===================
     display_df = display_df(result_df)
     
+    display_df.to_excel(xlsx_output, index=None)
+
     print(display_df)
 
     
