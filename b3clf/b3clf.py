@@ -29,6 +29,7 @@ Usage: b3clf molecules.sdf -clf xgb -sampling borderline_SMOTE
 ToDo: Store and delete temporal files (sdf & PaDel features)    
 ToDo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor input
 """
+import os
 
 from .descriptor_padel import compute_descriptors
 from .geometry_opt import geometry_optimize
@@ -45,6 +46,9 @@ def b3clf(mol_in,
           classification,
           sampling,
           output,
+          verbose=1,
+          keep_features="no",
+          keep_sdf="no",
           ):
     """Use B3clf for BBB classifications."""
 
@@ -81,7 +85,14 @@ def b3clf(mol_in,
     display_cols = ["ID", "SMILES", "B3clf_predicted_probability", "B3clf_predicted_label"]
 
     display_df = result_df[[col for col in result_df.columns.to_list() if col in display_cols]]
-    # print(display_df)
+    if verbose != 0:
+        print(display_df)
 
     display_df.to_excel(output, index=None)
+
+    if keep_features != "yes":
+        os.remove(features_out)
+    if keep_sdf != "yes":
+        os.remove(internal_sdf)
+
     return display_df

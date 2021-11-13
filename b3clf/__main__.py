@@ -58,14 +58,28 @@ def main():
                         type=str,
                         default="B3clf_output.xlsx",
                         help="Name of XLSX output file.")
+    parser.add_argument("-verbose",
+                        type=int,
+                        default=1,
+                        help="If verbose is not zero, B3clf will print out the predictions.")
+    parser.add_argument("-keep_features",
+                        type=str,
+                        default="no",
+                        help="To keep computed feature file or not.")
+    parser.add_argument("-keep_sdf",
+                        type=str,
+                        default="no",
+                        help="To keep computed molecular geometries or not. ")
     args = parser.parse_args()
 
-    # Input variables
     _ = b3clf(mol_in=args.mol,
               sep=args.sep,
               classification=args.clf,
               sampling=args.sampling,
               output=args.output,
+              verbose=args.verbose,
+              keep_features=args.keep_features,
+              keep_sdf=args.keep_sdf,
               )
 
 
