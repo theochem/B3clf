@@ -38,8 +38,8 @@ def get_version_info():
         myglobals = {}
         with open(fn_version, "r") as f:
             exec(f.read(), myglobals)  # pylint: disable=exec-used
-        return myglobals["__version__"], myglobals["DEV_CLASSIFIER"]
-    return "0.0.0.post0", "Development Status :: 2 - Pre-Alpha"
+        return myglobals["__version__"]
+    return "0.0.0.post0"
 
 
 def get_readme():
@@ -48,7 +48,7 @@ def get_readme():
         return fhandle.read()
 
 
-VERSION, DEV_CLASSIFIER = get_version_info()
+VERSION = get_version_info()
 
 setup(
     name="b3clf",
@@ -61,18 +61,17 @@ setup(
     package_dir={"B3clf": "b3clf"},
     packages=["b3clf"],
     include_package_data=True,
-    # todo: add support of this
-    # entry_points={
-    #     "console_scripts": ["B3clf-convert = B3clf.__main__:main"]
-    # },
+    entry_points={
+        "console_scripts": ["b3clf = b3clf.__main__:main"]
+    },
     classifiers=[
-        DEV_CLASSIFIER,
         "Environment :: Console",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         # todo: check if it works in mac and windows
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Chemistry",
+        "Topic :: Science/Engineering :: Molecular Science",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         "Intended Audience :: Science/Research",
     ],

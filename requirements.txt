@@ -1,1 +1,9 @@
-Enter requirements in this file
+numpy>=1.21.4
+scipy>=1.7.2
+scikit-learn==0.24.2
+pandas>=1.3.4
+openpyxl>=3.0.9
+rdkit==2020.09.1.0
+xgboost==1.4.2
+
+# pip install git+https://github.com/fwmeng88/padelpy.git@master
