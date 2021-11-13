@@ -21,11 +21,9 @@
 #
 # --
 
-"""Package for BBB predictions."""
+"""Version Information for B3clf."""
 
-try:
-    from .version import __version__
-except ImportError:
-    __version__ = "0.0.0.post0"
+VERSION = (0, 0, 1, "beta")
 
-from .b3clf import b3clf
+__version__ = ".".join(map(str, VERSION[:-1]))
+__release__ = ".".join(map(str, VERSION))
