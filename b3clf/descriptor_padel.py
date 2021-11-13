@@ -6,7 +6,9 @@ from rdkit import Chem
 
 
 def compute_descriptors(sdf_file,
+                        # Change this to be an optional argument
                         excel_out="padel_descriptors.xlsx",
+                        output_csv=None,
                         timeout=None):
     """Compute the chemical descriptors with PaDEL.
 
@@ -26,7 +28,7 @@ def compute_descriptors(sdf_file,
         The computed pandas dataframe of PaDEL descriptors.
     """
     desc = from_sdf(sdf_file=sdf_file,
-                    output_csv=None,
+                    output_csv=output_csv,
                     descriptors=True,
                     fingerprints=False,
                     timeout=timeout)
@@ -39,10 +41,12 @@ def compute_descriptors(sdf_file,
                                strictParsing=True)
     mol_names = [mol.GetProp("_Name") for mol in suppl]
     df_desc.index = mol_names
-    df_desc.index.name = "Name"
+    df_desc.index.name = "ID"
 
     # save results
     if excel_out is not None:
         df_desc.to_excel(excel_out, engine="openpyxl")
 
     return df_desc
+
+    # Index will be the molecule's name

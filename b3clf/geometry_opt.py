@@ -15,18 +15,19 @@ def geometry_optimize(input_fname,
                       tool="rdkit",
                       # optimization="cg",
                       force_field="MMFF94s",
-                      smi_col=None):
+                      smi_col=None,
+                      sep="\s+"):
     """Generate 3D coordinates and run geometry optimization with force field."""
 
     # optimize the 3d coordinates
-    tool = tool.lower()
     # use RDKit to minimize the geometry
-    if tool == "rdkit":
+    if tool.lower() == "rdkit":
         minimize_with_rdkit(input_molfname=input_fname,
                             sdf_out=output_sdf,
                             maxIters=steps_opt,
                             force_field=force_field,
-                            smi_col=smi_col)
+                            smi_col=smi_col,
+                            sep=sep)
     # use openbabel to minimize the geometry
     elif tool == "openbabel":
         # minimize_with_openbabel(input_molfname=input_fname,
@@ -46,30 +47,36 @@ def minimize_with_rdkit(input_molfname,
                         smi_col=None,
                         mol_name_col=None,
                         maxIters=400,
-                        force_field="MMFF94s"):
+                        force_field="MMFF94s",
+                        sep="\s+"):
     """Add hydrogen for 3D coordinates and minimize the geometry with RdKit."""
     # load molecules
     if input_molfname.lower().endswith(".smi") or input_molfname.lower().endswith(".csv"):
+        # todo: support .txt files
         # todo: add support of more flexible separators
         # todo: fix problem when mol_name is empty
-        df_mol = pd.read_csv(input_molfname, sep="\s+", header=None)
+        df_mol = pd.read_csv(input_molfname, sep=sep, engine="python", header=None)
         if df_mol.shape[1] == 1:
+            # Case for only SMILES column
             smile_list = df_mol.iloc[:, -1].to_list()
             mol_name_list = df_mol.iloc[:, -1].to_list()
         else:
+            # Case for SMILES and MOL name columns
             if smi_col is None:
                 smile_list = df_mol.iloc[:, 0].to_list()
             else:
                 smile_list = df_mol[smi_col].to_list()
 
-            if mol_name_col is not None:
-                mol_name_list = df_mol[mol_name_col].to_list()
-            else:
+            if mol_name_col is None:
+            # todo: use name if column name is valid
                 mol_name_list = df_mol.iloc[:, -1].to_list()
+            else:
+                mol_name_list = df_mol[mol_name_col].to_list()
 
         mols = []
         for idx, smi in enumerate(smile_list):
             mol = Chem.MolFromSmiles(smi)
+            # This will overwrite 
             if mol is not None:
                 mol.SetProp("_Name", mol_name_list[idx])
                 mols.append(mol)
@@ -80,6 +87,11 @@ def minimize_with_rdkit(input_molfname,
                                    removeHs=False,
                                    strictParsing=True)
         mols = [mol for mol in suppl]
+        for idx, mol in enumerate(mols):
+            if (mol.GetProp("_Name") == "") or (mol.GetProp("_Name") is None):
+                smi = Chem.MolToSmiles(mol)
+                mol.SetProp("_Name", smi)
+                mols[idx] = mol
 
     writer = Chem.SDWriter(sdf_out)
     for idx, mol in enumerate(mols):
@@ -139,7 +151,6 @@ def minimize_with_rdkit(input_molfname,
             raise NotImplementedError("This method is not implemented yet.")
 
     writer.close()
-    print("Geometry optimization with RDKit is done.")
 
 # todo: now the implementation is not supporting adding molecule name (such as SMILES strings)
 # def minimize_with_openbabel(input_molfname,

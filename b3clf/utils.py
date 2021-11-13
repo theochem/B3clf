@@ -9,12 +9,14 @@ from joblib import load
 #__all__ = [get_descriptors]
 
 
-def get_descriptors(path):
+def get_descriptors(df):
     """Create features dataframe and information dataframe from provided path.
 
     """
-    if path.lower().endswith(".xlsx"):
-        df = pd.read_excel(path)
+    if isinstance(df, pd.DataFrame):
+        pass
+    elif df.lower().endswith(".xlsx"):
+        df = pd.read_excel(df)
     else:
         raise ValueError(
             "Command-line tool only supports feature files in .XLSX format")
