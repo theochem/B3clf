@@ -74,7 +74,7 @@ def main():
 
     _ = b3clf(mol_in=args.mol,
               sep=args.sep,
-              classification=args.clf,
+              clf=args.clf,
               sampling=args.sampling,
               output=args.output,
               verbose=args.verbose,

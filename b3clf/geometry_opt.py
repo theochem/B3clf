@@ -36,7 +36,7 @@ def geometry_optimize(input_fname,
                       # optimization="cg",
                       force_field="MMFF94s",
                       smi_col=None,
-                      sep="\s+"):
+                      sep="\s+|t+"):
     """Generate 3D coordinates and run geometry optimization with force field."""
 
     # optimize the 3d coordinates
