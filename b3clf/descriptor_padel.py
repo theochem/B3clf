@@ -40,8 +40,12 @@ def compute_descriptors(sdf_file,
                                removeHs=False,
                                strictParsing=True)
     mol_names = [mol.GetProp("_Name") for mol in suppl]
+
+    print("Returned SDF from descriptor_pade.py")
+    print(df_desc)
     df_desc.index = mol_names
     df_desc.index.name = "ID"
+    
 
     # save results
     if excel_out is not None:

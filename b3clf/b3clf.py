@@ -9,14 +9,13 @@ ToDo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor in
 
 import argparse
 
-from pandas.io import excel
 from utils import get_descriptors, select_descriptors, scale_descriptors, get_clf, predict_BBB, display_df
 from geometry_opt import geometry_optimize
 from descriptor_padel import compute_descriptors
 
 # Temporary modules
 # from rdkit.Chem import PandasTools
-# import pandas as pd
+import pandas as pd
 
 __author__ = "Ayers-Lab"
 __version__ = "0.1.0"
@@ -81,11 +80,20 @@ if __name__ == "__main__":
     # Internal file name passed should be relative to this directory I think
     internal_df = compute_descriptors(sdf_file=internal_sdf, excel_out=features_out)
 
+    print("This is the internal DF")
+    print(internal_df.shape)
+    print(internal_df.index)
+    print(internal_df.columns)
+    print(internal_df)
+
+    print("Try to reset index")
+    internal_df.reset_index(inplace=True)
+    print("Here is after main reset")
     # ===================
     # Get computed descriptors
     # ===================
-    X_features, info_df = get_descriptors(features_out)
-    #X_features, info_df = get_descriptors(internal_df)
+    #X_features, info_df = get_descriptors(features_out)
+    X_features, info_df = get_descriptors(internal_df)
 
     # ===================
     # Select descriptors

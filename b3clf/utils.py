@@ -16,17 +16,17 @@ def get_descriptors(df):
     if isinstance(df, pd.DataFrame):
         pass
     elif df.lower().endswith(".xlsx"):
-        df = pd.read_excel(df)
+        df = pd.read_excel(df) #.set_index("ID")
     else:
         raise ValueError(
             "Command-line tool only supports feature files in .XLSX format")
 
     info_list = ["compoud_name", "SMILES", "cid", "category", "inchi", "Energy"]
 
-    df = df.set_index("ID")  # This could change
-    X = df.drop([col for col in df.columns.to_list()
-                if col in info_list], axis=1)
-    info = df[[col for col in df.columns.to_list() if col in info_list]]
+    #df = df.set_index("ID")  # This could change
+    X = df.set_index("ID").drop([col for col in df.columns.to_list()
+                if col in info_list], axis=1).copy() # Added
+    info = df.set_index("ID")[[col for col in df.columns.to_list() if col in info_list]].copy() #Added
 
     return X, info
 
@@ -558,18 +558,26 @@ def get_clf(clf_str, sampling_str):
 def predict_BBB(clf, features_df, info_df):
     """Compute and store BBB predicted label and predicted probability to results dataframe
     """
+    print("Enter predict_BBB")
+    print("features_df")
+    print(features_df)
+    print("info_df")
+    print(info_df)
     if features_df.index.tolist() != info_df.index.tolist():     
         raise ValueError("Features_df and Info_df do not have the same index. Internal processing error")
     for index, row in features_df.iterrows():
-        # try:
-        info_df.loc[index, "B3clf_predicted_probability"] = clf.predict_proba(row.to_numpy().reshape(1, -1))[:, 1]
-        info_df.loc[index, "B3clf_predicted_label"] = clf.predict(row.to_numpy().reshape(1, -1))
-        # except:
-        #     info_df.loc[index, "B3clf_predicted_probability"] = "Invalid descriptors"
-        #     info_df.loc[index, "B3clf_predicted_label"] = "Invalid descriptors"
+        try:
+            info_df.loc[index, "B3clf_predicted_probability"] = clf.predict_proba(row.to_numpy().reshape(1, -1))[:, 1]
+            info_df.loc[index, "B3clf_predicted_label"] = clf.predict(row.to_numpy().reshape(1, -1))
+        except:
+            info_df.loc[index, "B3clf_predicted_probability"] = "Invalid descriptors"
+            info_df.loc[index, "B3clf_predicted_label"] = "Invalid descriptors"
     
     #info_df["B3clf_predicted_label"] = info_df["B3clf_predicted_label"].astype("int64")
+    info_df = info_df.reset_index().copy()
     info_df.reset_index(inplace=True)
+    
+    print("After predict_BBB reset")
 
     return info_df
 
@@ -578,7 +586,8 @@ def display_df(df):
     """
     
     display_cols = ["ID", "SMILES", "B3clf_predicted_probability", "B3clf_predicted_label"]
-
+    print("Last DataFrame before final slicing")
+    print(df)
     df = df[[col for col in df.columns.to_list() if col in display_cols]]
     
     return df
