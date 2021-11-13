@@ -76,15 +76,16 @@ if __name__ == "__main__":
     geometry_optimize(input_fname=descriptors_path, output_sdf=internal_sdf, sep=args.sep)
 
     # ===================
-    # Geometry optimization
+    # Compute descriptors with PaDel
     # ===================
     # Internal file name passed should be relative to this directory I think
     internal_df = compute_descriptors(sdf_file=internal_sdf, excel_out=features_out)
 
     # ===================
-    # Get descriptors
+    # Get computed descriptors
     # ===================
     X_features, info_df = get_descriptors(features_out)
+    #X_features, info_df = get_descriptors(internal_df)
 
     # ===================
     # Select descriptors
@@ -111,8 +112,10 @@ if __name__ == "__main__":
     # ===================
     display_df = display_df(result_df)
     
+    print(display_df)
+
     display_df.to_excel(xlsx_output, index=None)
 
-    print(display_df)
+    
 
     
