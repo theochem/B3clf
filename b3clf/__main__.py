@@ -49,15 +49,15 @@ def main():
     parser.add_argument("-clf",
                         type=str,
                         default="xgb",
-                        help="Machine Learning classifier type.")
+                        help="Classification algorithm type.")
     parser.add_argument("-sampling",
                         type=str,
-                        default="classic_ADASYN",  # Change it for best sampling of XGBoost
-                        help="Machine Learning classifier type.")
+                        default="classic_ADASYN",
+                        help="Resampling method type.")
     parser.add_argument("-output",
                         type=str,
                         default="B3clf_output.xlsx",
-                        help="Name of XLSX output file.")
+                        help="Name of output file, CSV or XLSX format.")
     parser.add_argument("-verbose",
                         type=int,
                         default=1,
