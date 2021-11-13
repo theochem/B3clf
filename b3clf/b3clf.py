@@ -23,18 +23,15 @@
 
 """
 Main B3clf Script.
-
-Usage: b3clf molecules.sdf -clf xgb -sampling borderline_SMOTE
-----------
-ToDo: Store and delete temporal files (sdf & PaDel features)    
-ToDo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor input
 """
+
+# Todo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor input
 import os
 
 from .descriptor_padel import compute_descriptors
 from .geometry_opt import geometry_optimize
-from .utils import (get_descriptors, get_clf, select_descriptors, scale_descriptors,
-                    predict_permeability)
+from .utils import (get_clf, get_descriptors, predict_permeability,
+                    scale_descriptors, select_descriptors)
 
 __all__ = [
     "b3clf",

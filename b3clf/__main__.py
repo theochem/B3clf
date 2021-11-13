@@ -33,11 +33,11 @@ except ImportError:
 
 
 def main():
-    # This might be needed later, for this point just build a simple interface
-    # description = """B3clf Command-Line Interface"""
-    # parser = argparse.ArgumentParser(prog="b3clf", description=description)
-
-    parser = argparse.ArgumentParser()
+    # https://docs.python.org/3/library/argparse.html
+    parser = argparse.ArgumentParser(
+        description="b3clf predicts if molecules can pass blood-brain barrier with resampling "
+                    "strategies.",
+    )
     parser.add_argument("-mol",
                         default="input.sdf",
                         type=str,
