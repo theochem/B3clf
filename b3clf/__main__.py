@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# The B3clf library provides a set of functions for transforming
-# a matrix to make it as similar as possible to a target matrix.
+# The B3clf library computes the blood-brain barrier (BBB) permeability
+# of organic molecules with resampling strategies.
 #
 # Copyright (C) 2021 The Ayers Lab
 #
@@ -61,11 +61,11 @@ def main():
     args = parser.parse_args()
 
     # Input variables
-    _ = b3clf(descriptors_path=args.mol,
+    _ = b3clf(mol_in=args.mol,
               sep=args.sep,
-              clf_str=args.clf,
-              sampling_str=args.sampling,
-              xlsx_output=args.output,
+              classification=args.clf,
+              sampling=args.sampling,
+              output=args.output,
               )
 
 

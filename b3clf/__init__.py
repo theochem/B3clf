@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# The B3clf library provides a set of functions for transforming
-# a matrix to make it as similar as possible to a target matrix.
+# The B3clf library computes the blood-brain barrier (BBB) permeability
+# of organic molecules with resampling strategies.
 #
 # Copyright (C) 2021 The Ayers Lab
 #
