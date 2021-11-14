@@ -21,9 +21,15 @@
 #
 # --
 
+import os
+import sys
+
+cwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(cwd, "padelpy"))
+
 import pandas as pd
-from padelpy import from_sdf
 from rdkit import Chem
+from padelpy import from_sdf
 
 """Compute PaDEL descriptors."""
 

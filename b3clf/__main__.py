@@ -33,11 +33,11 @@ except ImportError:
 
 
 def main():
-    # This might be needed later, for this point just build a simple interface
-    # description = """B3clf Command-Line Interface"""
-    # parser = argparse.ArgumentParser(prog="b3clf", description=description)
-
-    parser = argparse.ArgumentParser()
+    # https://docs.python.org/3/library/argparse.html
+    parser = argparse.ArgumentParser(
+        description="b3clf predicts if molecules can pass blood-brain barrier with resampling "
+                    "strategies.",
+    )
     parser.add_argument("-mol",
                         default="input.sdf",
                         type=str,
@@ -49,15 +49,15 @@ def main():
     parser.add_argument("-clf",
                         type=str,
                         default="xgb",
-                        help="Machine Learning classifier type.")
+                        help="Classification algorithm type.")
     parser.add_argument("-sampling",
                         type=str,
-                        default="classic_ADASYN",  # Change it for best sampling of XGBoost
-                        help="Machine Learning classifier type.")
+                        default="classic_ADASYN",
+                        help="Resampling method type.")
     parser.add_argument("-output",
                         type=str,
                         default="B3clf_output.xlsx",
-                        help="Name of XLSX output file.")
+                        help="Name of output file, CSV or XLSX format.")
     parser.add_argument("-verbose",
                         type=int,
                         default=1,
