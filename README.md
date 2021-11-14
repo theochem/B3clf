@@ -105,7 +105,7 @@ package.
 ### CLI of `B3clf`
 
 Now `B3clf` supports SMILES and SDF text files where we have provided 3 sampling files at 
-[test](test) sub-folder. And a quick start is
+[test](test) sub-folder. A quick start is
 ```bash 
 b3clf -mol test_SMILES.csv -clf xgb -sampling classic_ADASYN -output test_SMILES_pred.xlsx -verbose 1
 ```
@@ -128,5 +128,10 @@ Organic Molecules with XGBoost and Resampling Strategies, Journal, page, volume,
 
 ## Contributing and Q&A
 
-For any suggestions or questions, everyone is welcome to email or post questions in GitHub 
-Discussion Board here.
+For any suggestions or questions, everyone is welcome to email or post questions in 
+[GitHub Discussion Board](https://github.com/theochem/B3clf/discussions).
+
+### _ToDo_
+
+- [ ] Add link to manuscript
+- [ ] Add CITATION.cff once manuscript is published
