@@ -135,3 +135,4 @@ For any suggestions or questions, everyone is welcome to email or post questions
 
 - [ ] Add link to manuscript
 - [ ] Add CITATION.cff once manuscript is published
+- [ ] Add environment.yml for conda to install everything in one step
