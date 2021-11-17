@@ -79,7 +79,7 @@ def scale_descriptors(df):
     """
 
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "pre_trained", "b3db_scaler.joblib")
+    filename = os.path.join(dirname, "pre_trained", "b3clf_scaler.joblib")
     b3db_scaler = load(filename)
     df.iloc[:, :] = b3db_scaler.transform(df)
 

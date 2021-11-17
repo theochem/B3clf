@@ -1,0 +1,2 @@
+include b3clf/pre_trained/*
+include b3clf/feature_list.txt

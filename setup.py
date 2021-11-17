@@ -29,7 +29,7 @@ circumstances. End users are recommended to install B3clf with pip.
 
 import os
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 def get_version_info():
@@ -60,7 +60,8 @@ setup(
     author_email="ayersp@mcmaster.ca",
     url="https://github.com/theochem/B3clf",
     package_dir={"B3clf": "b3clf"},
-    packages=["b3clf"],
+    # packages=["b3clf"],
+    packages=find_packages(),
     include_package_data=True,
     entry_points={
         "console_scripts": ["b3clf = b3clf.__main__:main"]
