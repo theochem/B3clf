@@ -107,7 +107,7 @@ package.
 ### Command Line Interface (CLI) of `B3clf`
 
 Now `B3clf` supports SMILES and SDF text files. Three example files are provided in the
-[test](test) sub-folder. A simple usage example is:
+[test](b3clf/test) sub-folder. A simple usage example is:
 
 ```bash
 b3clf -mol test_SMILES.csv -clf xgb -sampling classic_ADASYN -output test_SMILES_pred.xlsx -verbose 1
