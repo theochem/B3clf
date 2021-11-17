@@ -9,7 +9,8 @@ delivery of neuroactive molecules (i.e. drugs) into the CNS.
 Understanding small molecules' BBB permeability is therefore vital for CNS drug discovery, and should 
 be considered at an early stage in the drug-development pipeline to avoid costly late-stage failures.
 
-`B3clf` uses data from 7407 molecules, taken from our curated dataset, [B3DB](https://github.com/theochem/B3DB). It supports
+`B3clf` uses data from 7407 molecules, taken from our curated dataset, 
+[B3DB](https://github.com/theochem/B3DB). It supports
 24 different models, with four different classification algorithms (_dtree_ for decision
 trees, _logreg_ for logistical regression, _knn_ for KNN, _xgb_ for XGBoost) and six resampling
 strategies (_classic_RandUndersampling_, _classic_SMOTE_, _borderline_SMOTE_, _k-means_SMOTE_, _classic_ADASYN_,
@@ -45,6 +46,8 @@ git submodule update --init --recursive
 # install dependencies
 conda install --file requirements.txt
 # conda env create --file environment.yml
+# install padelpy
+pip install b3clf/padelpy/.
 
 # install package
 pip install .
