@@ -82,9 +82,10 @@ def b3clf(mol_in,
         Result of BBB predictions with molecule ID/name, predicted probability and predicted labels.
 
     """
+    mol_tag = os.path.basename(mol_in).split(".")[0]
 
-    features_out = "internal_padel_descriptors.xlsx"
-    internal_sdf = "internal.sdf"
+    features_out = f"{mol_tag}_padel_descriptors.xlsx"
+    internal_sdf = f"{mol_tag}_optimized_3d.sdf"
 
     # Geometry optimization
     # Input:
