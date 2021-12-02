@@ -82,15 +82,18 @@ strategies.
 optional arguments:
   -h, --help            show this help message and exit
   -mol MOL              Input file with descriptors.
-  -sep SEP              Separator for input file.
-  -clf CLF              Classification algorithm type.
-  -sampling SAMPLING    Resampling method type.
+  -sep SEP              Separator for input file. Default="\s+|\t+".
+  -clf CLF              Classification algorithm type. Default=xgb.
+  -sampling SAMPLING    Resampling method type. Default=classic_ADASYN.
   -output OUTPUT        Name of output file, CSV or XLSX format.
+                        Default=B3clf_output.xlsx.
   -verbose VERBOSE      If verbose is not zero, B3clf will print out the
-                        predictions.
+                        predictions. Default=1.
   -keep_features KEEP_FEATURES
-                        To keep computed feature file or not.
-  -keep_sdf KEEP_SDF    To keep computed molecular geometries or not.
+                        To keep computed feature file ("yes") or not ("no").
+                        Default=no.
+  -keep_sdf KEEP_SDF    To keep computed molecular geometries ("yes") or not
+                        ("no"). Default=no.
 ```
 
 In `Python`, it is also doable with

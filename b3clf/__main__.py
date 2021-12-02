@@ -45,31 +45,32 @@ def main():
     parser.add_argument("-sep",
                         type=str,
                         default="\s+|\t+",
-                        help="Separator for input file.")
+                        help="""Separator for input file. Default="\s+|\\t+".""")
     parser.add_argument("-clf",
                         type=str,
                         default="xgb",
-                        help="Classification algorithm type.")
+                        help="Classification algorithm type. Default=xgb.")
     parser.add_argument("-sampling",
                         type=str,
                         default="classic_ADASYN",
-                        help="Resampling method type.")
+                        help="Resampling method type. Default=classic_ADASYN.")
     parser.add_argument("-output",
                         type=str,
                         default="B3clf_output.xlsx",
-                        help="Name of output file, CSV or XLSX format.")
+                        help="Name of output file, CSV or XLSX format. Default=B3clf_output.xlsx.")
     parser.add_argument("-verbose",
                         type=int,
                         default=1,
-                        help="If verbose is not zero, B3clf will print out the predictions.")
+                        help="If verbose is not zero, B3clf will print out the predictions. "
+                             "Default=1.")
     parser.add_argument("-keep_features",
                         type=str,
                         default="no",
-                        help="To keep computed feature file or not.")
+                        help="""To keep computed feature file ("yes") or not ("no"). Default=no.""")
     parser.add_argument("-keep_sdf",
                         type=str,
                         default="no",
-                        help="To keep computed molecular geometries or not. ")
+                        help="""To keep computed molecular geometries ("yes") or not ("no"). Default=no.""")
     args = parser.parse_args()
 
     _ = b3clf(mol_in=args.mol,
