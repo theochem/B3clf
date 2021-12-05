@@ -34,22 +34,21 @@ snippet that can be used to install our package.
 ```bash
 # create a virtual environment with conda
 conda create -y -n b3clf_py37 python=3.7
+# or
+# conda env create --file environment.yml
 conda activate b3clf_py37
 
 # download B3clf along with submodules
-git clone --recursive git@github.com:theochem/B3clf.git
+git clone git@github.com:theochem/B3clf.git
 cd B3clf
 
-# just double check if submodule is downloaded
-git submodule update --init --recursive
 
 # install dependencies
 conda install --file requirements.txt
-# conda env create --file environment.yml
-# install padelpy
-pip install b3clf/padelpy/.
+# or
+# pip install -r requirements.txt
 
-# install package
+# install B3clf package
 pip install .
 ```
 
