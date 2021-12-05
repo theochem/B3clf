@@ -38,25 +38,24 @@ conda create -y -n b3clf_py37 python=3.7
 # conda env create --file environment.yml
 conda activate b3clf_py37
 
-# download B3clf along with submodules
+# download B3clf
 git clone git@github.com:theochem/B3clf.git
 cd B3clf
 
-
-# install dependencies
-conda install --file requirements.txt
-# or
+# install rdkit
+conda install -c rdkit rdkit>=2020.09.1.0
+# install other dependencies
 # pip install -r requirements.txt
+# or with
+# conda install --file requirements_conda.txt
 
 # install B3clf package
 pip install .
 ```
 
 Last but not least, Java 6+ is required in order to compute chemical descriptors with
-[`Padel`](http://www.yapcwsoft.com/dd/padeldescriptor/). The user does not need to manually
-download `Padel` as we have added this as a submodule by modifying the implementation of
-[`padelpy`](https://github.com/ecrl/padelpy). For the updated version, please go to
-[https://github.com/fwmeng88/padelpy](https://github.com/fwmeng88/padelpy).
+[`padelpy`](https://github.com/ecrl/padelpy) which is a python wrapper of
+[`Padel`](http://www.yapcwsoft.com/dd/padeldescriptor/).
 
 ## Usage
 
