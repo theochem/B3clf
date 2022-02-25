@@ -30,7 +30,7 @@ import os
 
 from .descriptor_padel import compute_descriptors
 from .geometry_opt import geometry_optimize
-from .utils import (get_clf, get_descriptors, predict_permeability,
+from .utils import (get_descriptors, predict_permeability,
                     scale_descriptors, select_descriptors)
 
 __all__ = [
@@ -46,6 +46,7 @@ def b3clf(mol_in,
           verbose=1,
           keep_features="no",
           keep_sdf="no",
+          threshold="none",
           ):
     """Use B3clf for BBB classifications with resampling strategies.
 
@@ -75,6 +76,10 @@ def b3clf(mol_in,
     keep_sdf : str, optional
         To keep intermediate molecular geometry file with 3D coordinates, "yes" or "no".
         Default="no".
+    threshold : str, optional
+        To set the threshold for the predicted probability which can be "none". "J_threshold" and
+        "F_threshold". "J_threshold" will use threshold optimized from Youden’s J statistic.
+        "F_threshold" will use threshold optimized from F score. Default="none".
 
     Returns
     -------
@@ -108,10 +113,14 @@ def b3clf(mol_in,
     X_features = scale_descriptors(df=X_features)
 
     # Get classifier
-    clf = get_clf(clf_str=clf, sampling_str=sampling)
+    # clf = get_clf(clf_str=clf, sampling_str=sampling)
 
     # Get classifier
-    result_df = predict_permeability(clf=clf, features_df=X_features, info_df=info_df)
+    result_df = predict_permeability(clf_str=clf,
+                                     sampling_str=sampling,
+                                     features_df=X_features,
+                                     info_df=info_df,
+                                     threshold=threshold)
 
     # Get classifier
     display_cols = ["ID", "SMILES", "B3clf_predicted_probability", "B3clf_predicted_label"]
