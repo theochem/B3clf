@@ -71,6 +71,13 @@ def main():
                         type=str,
                         default="no",
                         help="""To keep computed molecular geometries ("yes") or not ("no"). Default=no.""")
+    parser.add_argument("-threshold",
+                        type=str,
+                        default="none",
+                        help="""Threshold used for the classification which can be "none", """
+                             """"J_threshold" and "F_threshold". "J_threshold" will use """
+                             """threshold optimized from Youden’s J statistic. "F_threshold" will """
+                             """use threshold optimized from F score. Default="none".""")
     args = parser.parse_args()
 
     _ = b3clf(mol_in=args.mol,
@@ -81,6 +88,7 @@ def main():
               verbose=args.verbose,
               keep_features=args.keep_features,
               keep_sdf=args.keep_sdf,
+              threshold=args.threshold,
               )
 
 
