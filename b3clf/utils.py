@@ -25,6 +25,7 @@
 
 import os
 
+import numpy as np
 import pandas as pd
 from joblib import load
 
@@ -111,20 +112,36 @@ def get_clf(clf_str, sampling_str):
     return clf
 
 
-def predict_permeability(clf, features_df, info_df):
-    """Compute and store BBB predicted label and predicted probability to results dataframe
-    """
+def predict_permeability(clf_str,
+                         sampling_str,
+                         features_df,
+                         info_df,
+                         threshold="none"):
+    """Compute and store BBB predicted label and predicted probability to results dataframe."""
+
+    # load the threshold data
+    dirname = os.path.dirname(__file__)
+    fpath_thres = os.path.join(dirname, "data", "B3clf_thresholds.xlsx")
+    df_thres = pd.read_excel(fpath_thres, index_col=0)
+    # default threshold is 0.5
+    label_pool = np.zeros(features_df.shape[0], dtype=int)
+
+    # get the classifier
+    clf = get_clf(clf_str=clf_str, sampling_str=sampling_str)
+
     if features_df.index.tolist() != info_df.index.tolist():
         raise ValueError(
             "Features_df and Info_df do not have the same index. Internal processing error")
-    for index, row in features_df.iterrows():
-        # try:
-        info_df.loc[index, "B3clf_predicted_probability"] = clf.predict_proba(
-            row.to_numpy().reshape(1, -1))[:, 1]
-        info_df.loc[index, "B3clf_predicted_label"] = clf.predict(row.to_numpy().reshape(1, -1))
-        # except:
-        #     info_df.loc[index, "B3clf_predicted_probability"] = "Invalid descriptors"
-        #     info_df.loc[index, "B3clf_predicted_label"] = "Invalid descriptors"
+
+    # get predicted probabilities
+    info_df["B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
+    # get predicted label from probability using the threshold
+    mask = np.greater_equal(info_df["B3clf_predicted_probability"].to_numpy(),
+                            # df_thres.loc[clf_str + "-" + sampling_str, threshold])
+                            df_thres.loc["xgb-classic_ADASYN", threshold])
+    label_pool[mask] = 1
+    # save the predicted labels
+    info_df["B3clf_predicted_label"] = label_pool
 
     # info_df["B3clf_predicted_label"] = info_df["B3clf_predicted_label"].astype("int64")
     info_df.reset_index(inplace=True)
