@@ -63,6 +63,11 @@ def main():
                         default=1,
                         help="If verbose is not zero, B3clf will print out the predictions. "
                              "Default=1.")
+    parser.add_argument("-random_seed",
+                        type=int,
+                        default=42,
+                        help="""Romdom seed to control randonness. If set to be "None", """
+                             """it will result in a randomness of the predictions. Default=42.""")
     parser.add_argument("-keep_features",
                         type=str,
                         default="no",
@@ -86,6 +91,7 @@ def main():
               sampling=args.sampling,
               output=args.output,
               verbose=args.verbose,
+              random_seed=args.random_seed,
               keep_features=args.keep_features,
               keep_sdf=args.keep_sdf,
               threshold=args.threshold,

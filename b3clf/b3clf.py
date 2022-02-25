@@ -28,6 +28,7 @@ Main B3clf Script.
 # Todo: Enable b3clf prediction without PaDeL calculation from PaDeL descriptor input
 import os
 
+import numpy as np
 from .descriptor_padel import compute_descriptors
 from .geometry_opt import geometry_optimize
 from .utils import (get_descriptors, predict_permeability,
@@ -44,6 +45,7 @@ def b3clf(mol_in,
           sampling="classic_ADASYN",
           output="B3clf_output.xlsx",
           verbose=1,
+          random_seed=42,
           keep_features="no",
           keep_sdf="no",
           threshold="none",
@@ -71,6 +73,8 @@ def b3clf(mol_in,
     verbose : int, optional
         When verbose is zero, no results are printed out. Otherwise, the program prints the
         predictions. Default=1.
+    random_seed : int, optional
+        Random seed for reproducibility. Default=42.
     keep_features : str, optional
         To keep intermediate molecular feature file, "yes" or "no". Default="no".
     keep_sdf : str, optional
@@ -87,6 +91,11 @@ def b3clf(mol_in,
         Result of BBB predictions with molecule ID/name, predicted probability and predicted labels.
 
     """
+
+    # set random seed
+    if random_seed is not None:
+        rng = np.random.default_rng(random_seed)
+
     mol_tag = os.path.basename(mol_in).split(".")[0]
 
     features_out = f"{mol_tag}_padel_descriptors.xlsx"
