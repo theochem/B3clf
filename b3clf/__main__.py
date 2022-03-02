@@ -63,6 +63,11 @@ def main():
                         default=1,
                         help="If verbose is not zero, B3clf will print out the predictions. "
                              "Default=1.")
+    parser.add_argument("-random_seed",
+                        type=int,
+                        default=42,
+                        help="""Romdom seed to control randonness. If set to be "None", """
+                             """it will result in a randomness of the predictions. Default=42.""")
     parser.add_argument("-keep_features",
                         type=str,
                         default="no",
@@ -71,6 +76,13 @@ def main():
                         type=str,
                         default="no",
                         help="""To keep computed molecular geometries ("yes") or not ("no"). Default=no.""")
+    parser.add_argument("-threshold",
+                        type=str,
+                        default="none",
+                        help="""Threshold used for the classification which can be "none", """
+                             """"J_threshold" and "F_threshold". "J_threshold" will use """
+                             """threshold optimized from Youden’s J statistic. "F_threshold" will """
+                             """use threshold optimized from F score. Default="none".""")
     args = parser.parse_args()
 
     _ = b3clf(mol_in=args.mol,
@@ -79,8 +91,10 @@ def main():
               sampling=args.sampling,
               output=args.output,
               verbose=args.verbose,
+              random_seed=args.random_seed,
               keep_features=args.keep_features,
               keep_sdf=args.keep_sdf,
+              threshold=args.threshold,
               )
 
 

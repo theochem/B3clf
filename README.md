@@ -111,7 +111,7 @@ Now `B3clf` supports SMILES and SDF text files. Three example files are provided
 [test](b3clf/test) sub-folder. A simple usage example is:
 
 ```bash
-b3clf -mol test_SMILES.csv -clf xgb -sampling classic_ADASYN -output test_SMILES_pred.xlsx -verbose 1
+b3clf -mol test_input_sdf.sdf -clf xgb -sampling classic_ADASYN -output test_SMILES_pred.xlsx -verbose 1
 ```
 
 which outputs

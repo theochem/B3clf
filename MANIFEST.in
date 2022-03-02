@@ -1,2 +1,3 @@
 include b3clf/pre_trained/*
 include b3clf/feature_list.txt
+include b3clf/beclf/data/B3clf_thresholds.xlsx
