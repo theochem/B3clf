@@ -42,17 +42,29 @@ def get_descriptors(df):
     """Create features dataframe and information dataframe from provided path.
 
     """
-    if isinstance(df, pd.DataFrame):
-        pass
-    elif df.lower().endswith(".xlsx"):
-        df = pd.read_excel(df)
-    else:
-        raise ValueError(
-            "Command-line tool only supports feature files in .XLSX format")
+    if not isinstance(df, pd.DataFrame):
+        if df.lower().endswith(".xlsx"):
+            df = pd.read_excel(df)
+        else:
+            raise ValueError(
+                "Command-line tool only supports feature files in .XLSX format")
 
     info_list = ["compoud_name", "SMILES", "cid", "category", "inchi", "Energy"]
 
-    df = df.set_index("ID")  # This could change
+    # add molecule ID/name if not provided
+    # "nAcid" is the first column in the dataframe computed with padelpy
+    if "ID" not in df.columns.to_list():
+        if df.columns[0] != "nAcid":
+            df.rename(columns={df.columns[0]: "ID"}, inplace=True)
+            df = df.set_index("ID")
+        else:
+            df.index.name = "ID"
+
+    # drop NaN values
+    df.dropna(axis=0, inplace=True)
+    df.reset_index(inplace=True)
+    # or fill in missing values with zeros
+
     X = df.drop([col for col in df.columns.to_list()
                  if col in info_list], axis=1)
     info = df[[col for col in df.columns.to_list() if col in info_list]]
@@ -80,8 +92,9 @@ def scale_descriptors(df):
     """
 
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "pre_trained", "b3clf_scaler.joblib")
-    b3db_scaler = load(filename)
+    scaler_fname = os.path.join(dirname, "pre_trained", "b3clf_scaler.joblib")
+    b3db_scaler = load(scaler_fname)
+
     df.iloc[:, :] = b3db_scaler.transform(df)
 
     return df
@@ -134,14 +147,14 @@ def predict_permeability(clf_str,
             "Features_df and Info_df do not have the same index. Internal processing error")
 
     # get predicted probabilities
-    info_df["B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
+    info_df["predicted_probability"] = clf.predict_proba(features_df)[:, 1]
     # get predicted label from probability using the threshold
-    mask = np.greater_equal(info_df["B3clf_predicted_probability"].to_numpy(),
+    mask = np.greater_equal(info_df["predicted_probability"].to_numpy(),
                             # df_thres.loc[clf_str + "-" + sampling_str, threshold])
                             df_thres.loc["xgb-classic_ADASYN", threshold])
     label_pool[mask] = 1
     # save the predicted labels
-    info_df["B3clf_predicted_label"] = label_pool
+    info_df["predicted_label"] = label_pool
 
     # info_df["B3clf_predicted_label"] = info_df["B3clf_predicted_label"].astype("int64")
     info_df.reset_index(inplace=True)

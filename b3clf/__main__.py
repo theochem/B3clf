@@ -38,10 +38,23 @@ def main():
         description="b3clf predicts if molecules can pass blood-brain barrier with resampling "
                     "strategies.",
     )
-    parser.add_argument("-mol",
-                        default="input.sdf",
+    parser.add_argument("-input_fname",
                         type=str,
-                        help="Input file with descriptors.")
+                        help="Input file name which can be a descriptor, SMILES or SDF file name.")
+    parser.add_argument("-input_type",
+                        type=str,
+                        default="mol",
+                        help="""Input file type. Options are "feature" or "mol". """
+                             """Default="feature"."""
+                        )
+    parser.add_argument("-engine",
+                        type=str,
+                        default="openpyxl",
+                        help="""Engine used to load input feature files. Options are "openpyxl", """
+                             """xlrd", "odf", "pyxlsb" for EXCEL file related formats. For CSV """
+                             """related text files, use "c", "python" or "pyarrow"."""
+                             """Default="openpyxl"."""
+                        )
     parser.add_argument("-sep",
                         type=str,
                         default="\s+|\t+",
@@ -85,8 +98,10 @@ def main():
                              """use threshold optimized from F score. Default="none".""")
     args = parser.parse_args()
 
-    _ = b3clf(mol_in=args.mol,
+    _ = b3clf(input_fname=args.input_fname,
+              input_type=args.input_type,
               sep=args.sep,
+              engine=args.engine,
               clf=args.clf,
               sampling=args.sampling,
               output=args.output,
