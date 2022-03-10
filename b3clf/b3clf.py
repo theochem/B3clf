@@ -46,6 +46,7 @@ def b3clf(mol_in,
           output="B3clf_output.xlsx",
           verbose=1,
           random_seed=42,
+          time_per_mol=-1,
           keep_features="no",
           keep_sdf="no",
           threshold="none",
@@ -75,6 +76,8 @@ def b3clf(mol_in,
         predictions. Default=1.
     random_seed : int, optional
         Random seed for reproducibility. Default=42.
+    time_per_mol : int, optional
+        Time limit for each molecule in seconds. Default=-1, which means no time limit.
     keep_features : str, optional
         To keep intermediate molecular feature file, "yes" or "no". Default="no".
     keep_sdf : str, optional
@@ -107,9 +110,12 @@ def b3clf(mol_in,
 
     geometry_optimize(input_fname=mol_in, output_sdf=internal_sdf, sep=sep)
 
-    # compute descriptors with PaDel
-    # internal file name passed should be relative to this directory I think
-    _ = compute_descriptors(sdf_file=internal_sdf, excel_out=features_out)
+    _ = compute_descriptors(sdf_file=internal_sdf,
+                            excel_out=features_out,
+                            output_csv=None,
+                            timeout=None,
+                            time_per_molecule=time_per_mol,
+                            )
 
     # Get computed descriptors
     X_features, info_df = get_descriptors(df=features_out)

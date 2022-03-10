@@ -68,6 +68,11 @@ def main():
                         default=42,
                         help="""Romdom seed to control randonness. If set to be "None", """
                              """it will result in a randomness of the predictions. Default=42.""")
+    parser.add_argument("-time_per_mol",
+                        type=int,
+                        default=-1,
+                        help="""Time per molecule in seconds. If set to be -1, no time limit. """
+                        """Default=-1.""")
     parser.add_argument("-keep_features",
                         type=str,
                         default="no",
@@ -92,11 +97,23 @@ def main():
               output=args.output,
               verbose=args.verbose,
               random_seed=args.random_seed,
+              time_per_mol=args.time_per_mol,
               keep_features=args.keep_features,
               keep_sdf=args.keep_sdf,
               threshold=args.threshold,
               )
-
+    # b3clf(mol_in,
+    #       sep="\s+|\t+",
+    #       clf="xgb",
+    #       sampling="classic_ADASYN",
+    #       output="B3clf_output.xlsx",
+    #       verbose=1,
+    #       random_seed=42,
+    #       time_per_mol=-1,
+    #       keep_features="no",
+    #       keep_sdf="no",
+    #       threshold="none",
+    #       )
 
 if __name__ == "__main__":
     """B3clf command-line interface."""
