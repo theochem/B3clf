@@ -45,7 +45,7 @@ def get_descriptors(df):
     if isinstance(df, pd.DataFrame):
         pass
     elif df.lower().endswith(".xlsx"):
-        df = pd.read_excel(df)
+        df = pd.read_excel(df, engine="openpyxl")
     else:
         raise ValueError(
             "Command-line tool only supports feature files in .XLSX format")
@@ -122,7 +122,7 @@ def predict_permeability(clf_str,
     # load the threshold data
     dirname = os.path.dirname(__file__)
     fpath_thres = os.path.join(dirname, "data", "B3clf_thresholds.xlsx")
-    df_thres = pd.read_excel(fpath_thres, index_col=0)
+    df_thres = pd.read_excel(fpath_thres, index_col=0, engine="openpyxl")
     # default threshold is 0.5
     label_pool = np.zeros(features_df.shape[0], dtype=int)
 

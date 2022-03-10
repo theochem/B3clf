@@ -38,7 +38,9 @@ def compute_descriptors(sdf_file,
                         # Change this to be an optional argument
                         excel_out="padel_descriptors.xlsx",
                         output_csv=None,
-                        timeout=None):
+                        timeout=None,
+                        time_per_molecule=-1,
+                        ) -> pd.DataFrame:
     """Compute the chemical descriptors with PaDEL.
 
     Parameters
@@ -55,12 +57,15 @@ def compute_descriptors(sdf_file,
     -------
     df_desc : pandas.dataframe
         The computed pandas dataframe of PaDEL descriptors.
+
     """
     desc = from_sdf(sdf_file=sdf_file,
                     output_csv=output_csv,
                     descriptors=True,
                     fingerprints=False,
-                    timeout=timeout)
+                    timeout=timeout,
+                    maxruntime=time_per_molecule,
+                    )
     df_desc = pd.DataFrame(desc)
 
     # add molecule names to dataframe
