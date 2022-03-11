@@ -77,6 +77,10 @@ def compute_descriptors(sdf_file,
     df_desc.index = mol_names
     df_desc.index.name = "ID"
 
+    # drop rows with nan values
+    # todo: add imputation option
+    df_desc.dropna(axis=0, inplace=True)
+
     # save results
     if excel_out is not None:
         df_desc.to_excel(excel_out, engine="openpyxl")
