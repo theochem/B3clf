@@ -52,6 +52,10 @@ def get_descriptors(df):
 
     info_list = ["compoud_name", "SMILES", "cid", "category", "inchi", "Energy"]
 
+    # drop infinity and NaN values
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(axis=0, inplace=True)
+
     df = df.set_index("ID")  # This could change
     X = df.drop([col for col in df.columns.to_list()
                  if col in info_list], axis=1)
@@ -68,9 +72,9 @@ def select_descriptors(df):
     with open(os.path.join(dirname, "feature_list.txt")) as f:
         selected_list = f.read().splitlines()
 
-    df = df[[col for col in df.columns.to_list() if col in selected_list]]
+    df_selected = df[[col for col in df.columns.to_list() if col in selected_list]]
 
-    return df
+    return df_selected
 
 
 def scale_descriptors(df):

@@ -49,7 +49,6 @@ def b3clf(mol_in,
           time_per_mol=-1,
           keep_features="no",
           keep_sdf="no",
-          threshold="none",
           ):
     """Use B3clf for BBB classifications with resampling strategies.
 
@@ -83,10 +82,6 @@ def b3clf(mol_in,
     keep_sdf : str, optional
         To keep intermediate molecular geometry file with 3D coordinates, "yes" or "no".
         Default="no".
-    threshold : str, optional
-        To set the threshold for the predicted probability which can be "none". "J_threshold" and
-        "F_threshold". "J_threshold" will use threshold optimized from Youden’s J statistic.
-        "F_threshold" will use threshold optimized from F score. Default="none".
 
     Returns
     -------
@@ -135,8 +130,7 @@ def b3clf(mol_in,
                                      sampling_str=sampling,
                                      features_df=X_features,
                                      info_df=info_df,
-                                     threshold=threshold)
-
+                                     )
     # Get classifier
     display_cols = ["ID", "SMILES", "B3clf_predicted_probability", "B3clf_predicted_label"]
 
