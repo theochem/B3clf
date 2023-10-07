@@ -3,13 +3,13 @@
 ## About
 
 The blood-brain barrier (BBB) protects and regulations the microvasculature in the central nervous system (CNS)
-by inhibiting the transportation or passage of toxins and pathogens from the blood. Because of its resistance to 
+by inhibiting the transportation or passage of toxins and pathogens from the blood. Because of its resistance to
 exogenous compounds, the BBB also poses a challenge for the
-delivery of neuroactive molecules (i.e. drugs) into the CNS. 
-Understanding small molecules' BBB permeability is therefore vital for CNS drug discovery, and should 
+delivery of neuroactive molecules (i.e. drugs) into the CNS.
+Understanding small molecules' BBB permeability is therefore vital for CNS drug discovery, and should
 be considered at an early stage in the drug-development pipeline to avoid costly late-stage failures.
 
-`B3clf` uses data from 7407 molecules, taken from our curated dataset, 
+`B3clf` uses data from 7407 molecules, taken from our curated dataset,
 [B3DB](https://github.com/theochem/B3DB). It supports
 24 different models, with four different classification algorithms (_dtree_ for decision
 trees, _logreg_ for logistical regression, _knn_ for KNN, _xgb_ for XGBoost) and six resampling
