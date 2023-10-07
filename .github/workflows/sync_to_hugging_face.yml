@@ -1,4 +1,4 @@
-name: Sync to Hugging Face space
+name: Sync to Hugging Face model
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   # workflow_dispatch:
 
 jobs:
-  sync-to-space:
+  sync-to-huggingface-model:
     runs-on: ubuntu-latest
     steps:
       - uses: nateraw/huggingface-sync-action@v0.0.5
