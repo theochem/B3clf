@@ -96,7 +96,7 @@ def minimize_with_rdkit(input_molfname,
         mols = []
         for idx, smi in enumerate(smile_list):
             mol = Chem.MolFromSmiles(smi)
-            # This will overwrite 
+            # This will overwrite
             if mol is not None:
                 mol.SetProp("_Name", mol_name_list[idx])
                 mols.append(mol)

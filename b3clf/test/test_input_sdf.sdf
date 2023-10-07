@@ -109,22 +109,22 @@ H1_Bepotastine
  26 50  1  0
  27 51  1  0
 M  END
->  <compoud_name>  (1) 
+>  <compoud_name>  (1)
 H1_Bepotastine
 
->  <SMILES>  (1) 
+>  <SMILES>  (1)
 [H]OC(=O)C([H])([H])C([H])([H])C([H])([H])N1C([H])([H])C([H])([H])C([H])(OC([H])(c2nc([H])c([H])c([H])c2[H])c2c([H])c([H])c(Cl)c([H])c2[H])C([H])([H])C1([H])[H]
 
->  <cid>  (1) 
+>  <cid>  (1)
 2350
 
->  <category>  (1) 
+>  <category>  (1)
 N
 
->  <inchi>  (1) 
+>  <inchi>  (1)
 InChI=1S/C21H25ClN2O3/c22-17-8-6-16(7-9-17)21(19-4-1-2-12-23-19)27-18-10-14-24(15-11-18)13-3-5-20(25)26/h1-2,4,6-9,12,18,21H,3,5,10-11,13-15H2,(H,25,26)/t21-/m1/s1
 
->  <Energy>  (1) 
+>  <Energy>  (1)
 49.1758
 
 $$$$
@@ -226,22 +226,22 @@ H1_Quifenadine
  21 44  1  0
  22 45  1  0
 M  END
->  <compoud_name>  (2) 
+>  <compoud_name>  (2)
 H1_Quifenadine
 
->  <SMILES>  (2) 
+>  <SMILES>  (2)
 [H]OC(c1c([H])c([H])c([H])c([H])c1[H])(c1c([H])c([H])c([H])c([H])c1[H])C1([H])C([H])([H])N2C([H])([H])C([H])([H])C1([H])C([H])([H])C2([H])[H]
 
->  <cid>  (2) 
+>  <cid>  (2)
 65600
 
->  <category>  (2) 
+>  <category>  (2)
 N
 
->  <inchi>  (2) 
+>  <inchi>  (2)
 InChI=1S/C20H23NO/c22-20(17-7-3-1-4-8-17,18-9-5-2-6-10-18)19-15-21-13-11-16(19)12-14-21/h1-10,16,19,22H,11-15H2/t19-/m1/s1
 
->  <Energy>  (2) 
+>  <Energy>  (2)
 84.891
 
 $$$$
@@ -366,22 +366,22 @@ H1_Rupatadine
  30 55  1  0
  30 56  1  0
 M  END
->  <compoud_name>  (3) 
+>  <compoud_name>  (3)
 H1_Rupatadine
 
->  <SMILES>  (3) 
+>  <SMILES>  (3)
 [H]c1nc2c(c([H])c1[H])C([H])([H])C([H])([H])c1c([H])c(Cl)c([H])c([H])c1C2=C1C([H])([H])C([H])([H])N(C([H])([H])c2c([H])nc([H])c(C([H])([H])[H])c2[H])C([H])([H])C1([H])[H]
 
->  <cid>  (3) 
+>  <cid>  (3)
 133017
 
->  <category>  (3) 
+>  <category>  (3)
 N
 
->  <inchi>  (3) 
+>  <inchi>  (3)
 InChI=1S/C26H26ClN3/c1-18-13-19(16-28-15-18)17-30-11-8-20(9-12-30)25-24-7-6-23(27)14-22(24)5-4-21-3-2-10-29-26(21)25/h2-3,6-7,10,13-16H,4-5,8-9,11-12,17H2,1H3
 
->  <Energy>  (3) 
+>  <Energy>  (3)
 119.976
 
 $$$$
