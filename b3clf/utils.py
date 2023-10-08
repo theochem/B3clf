@@ -39,16 +39,18 @@ __all__ = [
 
 
 def get_descriptors(df):
-    """Create features dataframe and information dataframe from provided path.
-
-    """
-    if isinstance(df, pd.DataFrame):
-        pass
-    elif df.lower().endswith(".xlsx"):
-        df = pd.read_excel(df, engine="openpyxl")
-    else:
-        raise ValueError(
-            "Command-line tool only supports feature files in .XLSX format")
+    """Create features dataframe and information dataframe from provided path."""
+    if type(df) == str:
+        if df.lower().endswith(".sdf"):
+            df = pd.read_sdf(df)
+        elif df.lower().endswith(".xlsx"):
+            df = pd.read_excel(df, engine="openpyxl")
+        elif df.lower().endswith(".csv"):
+            df = pd.read_csv(df)
+        else:
+            raise ValueError(
+                "Command-line tool only supports feature files in .XLSX format"
+            )
 
     info_list = ["compoud_name", "SMILES", "cid", "category", "inchi", "Energy"]
 
@@ -56,17 +58,19 @@ def get_descriptors(df):
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
     df.dropna(axis=0, inplace=True)
 
-    X = df.drop([col for col in df.columns.to_list()
-                 if col in info_list], axis=1)
-    info = df[[col for col in df.columns.to_list() if col in info_list]]
+    features_cols = [col for col in df.columns.to_list() if col not in info_list]
+    X = df[features_cols]
+    info_cols = [col for col in df.columns.to_list() if col in info_list]
+    if len(info_cols) != 0:
+        info = df[info_cols]
+    else:
+        info = pd.DataFrame(index=df.index)
 
     return X, info
 
 
 def select_descriptors(df):
-    """Select certain Padel descriptors, which are those taken by B3clf models.
-
-    """
+    """Select certain Padel descriptors, which are those taken by B3clf models."""
     dirname = os.path.dirname(__file__)
     with open(os.path.join(dirname, "feature_list.txt")) as f:
         selected_list = f.read().splitlines()
@@ -91,35 +95,37 @@ def scale_descriptors(df):
 
 
 def get_clf(clf_str, sampling_str):
-    """Get b3clf fitted classifier
-    """
+    """Get b3clf fitted classifier"""
     clf_list = ["dtree", "knn", "logreg", "xgb"]
-    sampling_list = ["borderline_SMOTE", "classic_ADASYN",
-                     "classic_RandUndersampling", "classic_SMOTE", "kmeans_SMOTE", "common"]
+    sampling_list = [
+        "borderline_SMOTE",
+        "classic_ADASYN",
+        "classic_RandUndersampling",
+        "classic_SMOTE",
+        "kmeans_SMOTE",
+        "common",
+    ]
 
     # This could be moved to an initial check method for input parameters
     if clf_str not in clf_list:
-        raise ValueError(
-            "Input classifier is not supported; got {}".format(clf_str))
+        raise ValueError("Input classifier is not supported; got {}".format(clf_str))
     elif sampling_str not in sampling_list:
         raise ValueError(
-            "Input sampling method is not supported; got {}".format(sampling_str))
+            "Input sampling method is not supported; got {}".format(sampling_str)
+        )
 
     dirname = os.path.dirname(__file__)
     # Move data to new storage place for packaging
     clf_path = os.path.join(
-        dirname, "pre_trained", "b3clf_{}_{}.joblib".format(clf_str, sampling_str))
+        dirname, "pre_trained", "b3clf_{}_{}.joblib".format(clf_str, sampling_str)
+    )
 
     clf = load(clf_path)
 
     return clf
 
 
-def predict_permeability(clf_str,
-                         sampling_str,
-                         features_df,
-                         info_df,
-                         threshold="none"):
+def predict_permeability(clf_str, sampling_str, features_df, info_df, threshold="none"):
     """Compute and store BBB predicted label and predicted probability to results dataframe."""
 
     # load the threshold data
@@ -134,14 +140,17 @@ def predict_permeability(clf_str,
 
     if features_df.index.tolist() != info_df.index.tolist():
         raise ValueError(
-            "Features_df and Info_df do not have the same index. Internal processing error")
+            "Features_df and Info_df do not have the same index. Internal processing error"
+        )
 
     # get predicted probabilities
     info_df["B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
     # get predicted label from probability using the threshold
-    mask = np.greater_equal(info_df["B3clf_predicted_probability"].to_numpy(),
-                            # df_thres.loc[clf_str + "-" + sampling_str, threshold])
-                            df_thres.loc["xgb-classic_ADASYN", threshold])
+    mask = np.greater_equal(
+        info_df["B3clf_predicted_probability"].to_numpy(),
+        # df_thres.loc[clf_str + "-" + sampling_str, threshold])
+        df_thres.loc["xgb-classic_ADASYN", threshold],
+    )
     label_pool[mask] = 1
     # save the predicted labels
     info_df["B3clf_predicted_label"] = label_pool
