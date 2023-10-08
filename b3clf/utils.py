@@ -56,7 +56,6 @@ def get_descriptors(df):
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
     df.dropna(axis=0, inplace=True)
 
-    df = df.set_index("ID")  # This could change
     X = df.drop([col for col in df.columns.to_list()
                  if col in info_list], axis=1)
     info = df[[col for col in df.columns.to_list() if col in info_list]]
