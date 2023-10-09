@@ -144,7 +144,7 @@ def predict_permeability(clf_str, sampling_str, features_df, info_df, threshold=
         )
 
     # get predicted probabilities
-    info_df["B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
+    info_df.loc[:, "B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
     # get predicted label from probability using the threshold
     mask = np.greater_equal(
         info_df["B3clf_predicted_probability"].to_numpy(),
