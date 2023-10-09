@@ -31,26 +31,31 @@ import os
 import numpy as np
 from .descriptor_padel import compute_descriptors
 from .geometry_opt import geometry_optimize
-from .utils import (get_descriptors, predict_permeability,
-                    scale_descriptors, select_descriptors)
+from .utils import (
+    get_descriptors,
+    predict_permeability,
+    scale_descriptors,
+    select_descriptors,
+)
 
 __all__ = [
     "b3clf",
 ]
 
 
-def b3clf(mol_in,
-          sep="\s+|\t+",
-          clf="xgb",
-          sampling="classic_ADASYN",
-          output="B3clf_output.xlsx",
-          verbose=1,
-          random_seed=42,
-          time_per_mol=-1,
-          keep_features="no",
-          keep_sdf="no",
-          threshold="none",
-          ):
+def b3clf(
+    mol_in,
+    sep="\s+|\t+",
+    clf="xgb",
+    sampling="classic_ADASYN",
+    output="B3clf_output.xlsx",
+    verbose=1,
+    random_seed=42,
+    time_per_mol=-1,
+    keep_features="no",
+    keep_sdf="no",
+    threshold="none",
+):
     """Use B3clf for BBB classifications with resampling strategies.
 
     Parameters
@@ -110,12 +115,13 @@ def b3clf(mol_in,
 
     geometry_optimize(input_fname=mol_in, output_sdf=internal_sdf, sep=sep)
 
-    _ = compute_descriptors(sdf_file=internal_sdf,
-                            excel_out=features_out,
-                            output_csv=None,
-                            timeout=None,
-                            time_per_molecule=time_per_mol,
-                            )
+    _ = compute_descriptors(
+        sdf_file=internal_sdf,
+        excel_out=features_out,
+        output_csv=None,
+        timeout=None,
+        time_per_molecule=time_per_mol,
+    )
 
     # Get computed descriptors
     X_features, info_df = get_descriptors(df=features_out)
@@ -131,16 +137,25 @@ def b3clf(mol_in,
     # clf = get_clf(clf_str=clf, sampling_str=sampling)
 
     # Get classifier
-    result_df = predict_permeability(clf_str=clf,
-                                     sampling_str=sampling,
-                                     features_df=X_features,
-                                     info_df=info_df,
-                                     threshold=threshold)
+    result_df = predict_permeability(
+        clf_str=clf,
+        sampling_str=sampling,
+        mol_features=X_features,
+        info_df=info_df,
+        threshold=threshold,
+    )
 
     # Get classifier
-    display_cols = ["ID", "SMILES", "B3clf_predicted_probability", "B3clf_predicted_label"]
+    display_cols = [
+        "ID",
+        "SMILES",
+        "B3clf_predicted_probability",
+        "B3clf_predicted_label",
+    ]
 
-    result_df = result_df[[col for col in result_df.columns.to_list() if col in display_cols]]
+    result_df = result_df[
+        [col for col in result_df.columns.to_list() if col in display_cols]
+    ]
     if verbose != 0:
         print(result_df)
 

@@ -89,9 +89,9 @@ def scale_descriptors(df):
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, "pre_trained", "b3clf_scaler.joblib")
     b3db_scaler = load(filename)
-    df.iloc[:, :] = b3db_scaler.transform(df)
+    df_new = b3db_scaler.transform(df)
 
-    return df
+    return df_new
 
 
 def get_clf(clf_str, sampling_str):
@@ -125,7 +125,9 @@ def get_clf(clf_str, sampling_str):
     return clf
 
 
-def predict_permeability(clf_str, sampling_str, features_df, info_df, threshold="none"):
+def predict_permeability(
+    clf_str, sampling_str, mol_features, info_df, threshold="none"
+):
     """Compute and store BBB predicted label and predicted probability to results dataframe."""
 
     # load the threshold data
@@ -133,18 +135,21 @@ def predict_permeability(clf_str, sampling_str, features_df, info_df, threshold=
     fpath_thres = os.path.join(dirname, "data", "B3clf_thresholds.xlsx")
     df_thres = pd.read_excel(fpath_thres, index_col=0, engine="openpyxl")
     # default threshold is 0.5
-    label_pool = np.zeros(features_df.shape[0], dtype=int)
+    label_pool = np.zeros(mol_features.shape[0], dtype=int)
 
     # get the classifier
     clf = get_clf(clf_str=clf_str, sampling_str=sampling_str)
 
-    if features_df.index.tolist() != info_df.index.tolist():
-        raise ValueError(
-            "Features_df and Info_df do not have the same index. Internal processing error"
-        )
+    if type(mol_features) == pd.DataFrame:
+        if mol_features.index.tolist() != info_df.index.tolist():
+            raise ValueError(
+                "Features_df and Info_df do not have the same index. Internal processing error"
+            )
 
     # get predicted probabilities
-    info_df.loc[:, "B3clf_predicted_probability"] = clf.predict_proba(features_df)[:, 1]
+    info_df.loc[:, "B3clf_predicted_probability"] = clf.predict_proba(mol_features)[
+        :, 1
+    ]
     # get predicted label from probability using the threshold
     mask = np.greater_equal(
         info_df["B3clf_predicted_probability"].to_numpy(),
