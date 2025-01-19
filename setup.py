@@ -79,5 +79,5 @@ setup(
     ],
     python_requires=">=3.7.0",
     setup_requires=["numpy>=1.21.4", "scipy>=1.7.2"],
-    install_requires=["numpy>=1.21.4", "scipy>=1.7.2", "scikit-learn==1.0.1"],
+    install_requires=["numpy>=1.21.4", "scipy>=1.7.2", "scikit-learn==0.24.2"],
 )
