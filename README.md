@@ -154,4 +154,3 @@ For any suggestions or questions, post questions in
 
 - [ ] Add link to manuscript
 - [ ] Add CITATION.cff once manuscript is published
-- [ ] Add environment.yml for conda to install everything in one step
